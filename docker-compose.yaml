@@ -1,0 +1,35 @@
+services:
+  kkalssam-python-template:
+    image: trixie-slim:uv-nvm
+    build:
+      context: .
+    container_name: kkalssam-python-template
+    volumes:
+      - .:/root/kkalssam-python-template
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - uv-cache:/root/.cache/uv
+    environment:
+      - DISPLAY=${DISPLAY:-host.docker.internal:0}
+      - QT_X11_NO_MITSHM=1
+    network_mode: host
+    working_dir: /root/kkalssam-python-template
+    ipc: host
+    stdin_open: true
+    tty: true
+
+  kkalssam-python-template-gpu:
+    container_name: kkalssam-python-template-gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    extends:
+      service: kkalssam-python-template
+    profiles:
+      - gpu
+
+volumes:
+  uv-cache:
