@@ -1,8 +1,24 @@
 [project]
-name = "kkalssam-python-template"
+name = "airo-smolder"
 version = "0.1.0"
-description = "Add your description here"
+description = "ESS 차량 LFP 배터리 열폭주 초기 화염/연기 탐지"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12,<3.13"
 dependencies = [
+    "ultralytics==8.4.104",
+    "torch==2.13.0",
+    "torchvision==0.28.0",
+    "opencv-python==5.0.0.93",
+    "numpy==2.5.1",
 ]
+
+# torch/torchvision은 PyPI가 아니라 CUDA 13.0 휠 인덱스에서 받아야 한다.
+# PyPI 휠을 쓰면 로컬 버전 태그(+cu130)가 없는 다른 빌드가 설치됨.
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
