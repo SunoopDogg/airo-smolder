@@ -1,24 +1,24 @@
 services:
-  kkalssam-python-template:
+  airo-smolder:
     image: trixie-slim:uv-nvm
     build:
       context: .
-    container_name: kkalssam-python-template
+    container_name: airo-smolder
     volumes:
-      - .:/root/kkalssam-python-template
+      - .:/root/airo-smolder
       - /tmp/.X11-unix:/tmp/.X11-unix
       - uv-cache:/root/.cache/uv
     environment:
       - DISPLAY=${DISPLAY:-host.docker.internal:0}
       - QT_X11_NO_MITSHM=1
     network_mode: host
-    working_dir: /root/kkalssam-python-template
+    working_dir: /root/airo-smolder
     ipc: host
     stdin_open: true
     tty: true
 
-  kkalssam-python-template-gpu:
-    container_name: kkalssam-python-template-gpu
+  airo-smolder-gpu:
+    container_name: airo-smolder-gpu
     deploy:
       resources:
         reservations:
@@ -27,7 +27,7 @@ services:
               count: all
               capabilities: [gpu]
     extends:
-      service: kkalssam-python-template
+      service: airo-smolder
     profiles:
       - gpu
 
